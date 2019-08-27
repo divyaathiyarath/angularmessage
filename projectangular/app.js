@@ -7,7 +7,8 @@ app.use(bodyparser.urlencoded({extended:'true'}));
 app.use(Express.static(__dirname+"/public"));
 app.set('view engine','ejs');
 var mongoose=require('mongoose');
-mongoose.connect("mongodb://localhost:27017/message");
+//mongoose.connect("mongodb://localhost:27017/message");
+mongoose.connect("mongodb+srv://mongodb:mongodb@mycluster-rfooj.mongodb.net/test?retryWrites=true&w=majority");
 var MessageModel=mongoose.model('Message',{
     name:String,
     mailid:String,
@@ -51,7 +52,8 @@ app.get('/viewApi',(req,res)=>
 });
 app.get('/view',(req,res)=>
 {
-    var viewlink="http://localhost:3000/viewApi";
+   // var viewlink="http://localhost:3000/viewApi";
+   var viewlink="https://angularmessage.herokuapp.com/viewApi";
     request(viewlink,(error,response,body)=>{
         var data=JSON.parse(body);
         res.render('viewmessage',{data:data});
