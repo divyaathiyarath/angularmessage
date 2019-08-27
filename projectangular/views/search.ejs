@@ -27,17 +27,14 @@
     <div class="container">
         <div class="row">
             <div class="col">
-               
+                <form action="/search" method="POST">
                 <table>
-                    <% for(var i=0;i<data.length;i++){ %>
-                    <tr><th>Name</th><td><%= data[i].name %></td></tr>
-                    <tr><th>mail id</th><td><%= data[i].mailid %></td></tr>
-                    <tr><th>Phone number</th><td><%=data[i].phone %></td></tr>
-                    <tr><th>Message</th><td><%= data[i].message %></td></tr>
-                   
-                    <% } %>
+                    
+                    <tr><th>Phone number</th><td><input type="text" name="phone" class="form-control"></td></tr>
+                    
+                    <tr><th></th><td><button  type="submit" class="btn btn-success">SEARCH</button></td></tr>
                 </table>
-               
+                </form>
             </div>
         </div>
     </div>

@@ -59,6 +59,31 @@ app.get('/view',(req,res)=>
         res.render('viewmessage',{data:data});
     });
 });
+app.post('/searchApi',(req,res)=>{
+    var phone=req.body.phone;
+    MessageModel.find({phone:phone},(error,data)=>
+    {
+        if(error)
+        {
+            throw error;
+
+        }
+        else{
+            res.send(data);
+        }
+    })
+
+});
+app.get('/search',(req,res)=>
+{
+   // var viewlink="http://localhost:3000/viewApi";
+   var viewlink="https://angularmessage.herokuapp.com/searchApi";
+    request(viewlink,(error,response,body)=>{
+        var data=JSON.parse(body);
+        res.render('searchresult',{data:data});
+    });
+});
+
 
 app.listen(process.env.PORT || 3000,()=>
 {
