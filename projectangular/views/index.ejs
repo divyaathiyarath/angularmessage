@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+        <nav class="navbar navbar-expand-sm bg-light">
+
+                <!-- Links -->
+                <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="/index">Home</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/view">View message</a>
+                  </li>
+                </ul>
+              
+              </nav>
+              
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <form action="/readApi" method="POST">
+                <table>
+                    <tr><th>Name</th><td><input type="text" name="name" class="form-control"></td></tr>
+                    <tr><th>mail id</th><td><input type="email" name="mailid" id="" class="form-control"></td></tr>
+                    <tr><th>Phone number</th><td><input type="text" name="phone" class="form-control"></td></tr>
+                    <tr><th>Message</th><td><input type="text" name="message"class="form-control"></td></tr>
+                    <tr><th></th><td><button  type="submit" class="btn btn-success">ADD</button></td></tr>
+                </table>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
