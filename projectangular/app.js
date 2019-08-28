@@ -5,10 +5,29 @@ var bodyparser=require('body-parser');
 app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({extended:'true'}));
 app.use(Express.static(__dirname+"/public"));
+// For CORS,Pgm Line no 12 to 29
+app.use(function (req, res, next) {
+
+    // Website you wish to allow to connect
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4200' );
+
+    // Request methods you wish to allow
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+
+    // Request headers you wish to allow
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+
+    // Set to true if you need the website to include cookies in the requests sent
+    // to the API (e.g. in case you use sessions)
+    res.setHeader('Access-Control-Allow-Credentials', true);
+
+    // Pass to next layer of middleware
+    next();
+});
 app.set('view engine','ejs');
 var mongoose=require('mongoose');
-//mongoose.connect("mongodb://localhost:27017/message");
-mongoose.connect("mongodb+srv://mongodb:mongodb@mycluster-rfooj.mongodb.net/test?retryWrites=true&w=majority");
+mongoose.connect("mongodb://localhost:27017/message");
+//mongoose.connect("mongodb+srv://mongodb:mongodb@mycluster-rfooj.mongodb.net/test?retryWrites=true&w=majority");
 var MessageModel=mongoose.model('Message',{
     name:String,
     mailid:String,
@@ -52,16 +71,17 @@ app.get('/viewApi',(req,res)=>
 });
 app.get('/view',(req,res)=>
 {
-   // var viewlink="http://localhost:3000/viewApi";
-   var viewlink="https://angularmessage.herokuapp.com/viewApi";
+    var viewlink="http://localhost:3000/viewApi";
+  // var viewlink="https://angularmessage.herokuapp.com/viewApi";
     request(viewlink,(error,response,body)=>{
         var data=JSON.parse(body);
         res.render('viewmessage',{data:data});
     });
 });
-app.post('/searchApi',(req,res)=>{
-    var phone=req.body.phone;
-    MessageModel.find({phone:phone},(error,data)=>
+app.get('/searchApi/:ph',(req,res)=>{
+
+    var phonear=req.params.ph;
+    MessageModel.find({phone:phonear},(error,data)=>
     {
         if(error)
         {
@@ -74,16 +94,19 @@ app.post('/searchApi',(req,res)=>{
     })
 
 });
-app.get('/search',(req,res)=>
+app.post('/search',(req,res)=>
 {
-   // var viewlink="http://localhost:3000/viewApi";
-   var viewlink="https://angularmessage.herokuapp.com/searchApi";
+    var phonearg=req.body.phone;
+    var viewlink="http://localhost:3000/searchApi"+phonearg;
+  // var viewlink="https://angularmessage.herokuapp.com/searchApi";
     request(viewlink,(error,response,body)=>{
         var data=JSON.parse(body);
         res.render('searchresult',{data:data});
     });
 });
-
+app.get('/searchform',(req,res)=>{
+    res.render('searchform');
+})
 
 app.listen(process.env.PORT || 3000,()=>
 {
