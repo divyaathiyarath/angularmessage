@@ -78,9 +78,10 @@ app.get('/view',(req,res)=>
         res.render('viewmessage',{data:data});
     });
 });
-app.get('/searchApi/:ph',(req,res)=>{
+app.post('/searchApi',(req,res)=>{
 
-    var phonear=req.params.ph;
+  //  var phonear=req.params.ph;
+  var phonear=req.body.phone;
     MessageModel.find({phone:phonear},(error,data)=>
     {
         if(error)
@@ -108,7 +109,39 @@ app.get('/searchform',(req,res)=>{
     res.render('searchform');
 })
 
-app.listen(process.env.PORT || 3000,()=>
+//DeleteApi
+app.post('/delApi',(req,res)=>
+{
+    MessageModel.remove({_id:req.body[0]._id},(error,response)=>
+    {
+        if(error)
+        {
+            throw error;
+        }
+        else{
+            res.send(response);
+        }
+    })
+})
+//UpdateApi
+app.post('/updateApi',(req,res)=>
+{
+    console.log(req.body[0])
+    MessageModel.findOneAndUpdate({_id:req.body[0]._id},req.body[0],(error,response)=>
+    {
+         if(error)
+         {
+             console.log(error);
+             throw error;
+         }
+         else{
+             res.send(response);
+         }
+    })
+})
+
+
+app.listen(process.env.PORT || 3002,()=>
 {
     console.log("Server is running");
 })
